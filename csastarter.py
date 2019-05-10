@@ -6,6 +6,8 @@
 
 import sys
 import argparse
+from pprint import pprint
+import json
 
 from config import *
 from cyberfloodClient import CfClient
@@ -37,11 +39,20 @@ def main():
         print("error! Please check your configuration.")
         sys.exit()
 
-    print("Test ID:" + args.testid)
-    print("Profile ID: " + args.profileid)
+    attackProfileResponse = csaStarterLib.getAttackProfile(
+        cfClient, args.profileid)
 
-    attackProfile = csaStarterLib.getAttackProfile(cfClient, args.profileid)
-    csaTest = csaStarterLib.getCsaTest(cfClient, args.testid)
+    csaTestResponse = csaStarterLib.getCsaTest(cfClient, args.testid)
+    csaTest = json.loads(csaTestResponse)
+    attackProfile = json.loads(attackProfileResponse)
+    newCsaTest = csaStarterLib.modifyCsaTest(
+        cfClient, csaTest, attackProfile)
+    # pprint(json.dumps(newCsaTest))
+    # print(newCsaTest["id"])
+    response = cfClient.updateCyberSecurityAssessmentTest(
+        newCsaTest, args.testid)
+
+    #response = cfClient.startCyberSecurityAssessmentTest(args.testid)
 
     cfClient.invalidateToken()
     print("(Authentication has been deleted)")
