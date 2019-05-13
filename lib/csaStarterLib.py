@@ -2,7 +2,6 @@ import json
 import inspect
 from pprint import pprint
 from cyberfloodClient.Models import AttackProfile
-from cyberfloodClient.Models import CyberSecurityAssessmentTest
 
 
 def getAttackProfile(cfClient, attackProfileId):

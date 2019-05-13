@@ -53,6 +53,7 @@ def main():
         newCsaTest, args.testid)
 
     #response = cfClient.startCyberSecurityAssessmentTest(args.testid)
+    response = cfClient.startTest(args.testid)
 
     cfClient.invalidateToken()
     print("(Authentication has been deleted)")
